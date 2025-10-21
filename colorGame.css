@@ -69,3 +69,67 @@ button:hover {
     color: white;
     background: steelblue;
 }
+
+/* RGB Breakdown Bars */
+#rgbBreakdown {
+    background-color: #2a2a2a;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.rgb-bar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.rgb-bar-container:last-child {
+    margin-bottom: 0;
+}
+
+.rgb-label {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    width: 30px;
+    text-align: center;
+}
+
+.rgb-bar-track {
+    flex: 1;
+    height: 24px;
+    background-color: #444;
+    border-radius: 12px;
+    margin: 0 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.rgb-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 12px;
+    transition: width 0.5s ease-in-out;
+    position: relative;
+}
+
+.red-bar {
+    background: linear-gradient(to right, #660000, #ff0000);
+}
+
+.green-bar {
+    background: linear-gradient(to right, #006600, #00ff00);
+}
+
+.blue-bar {
+    background: linear-gradient(to right, #000066, #0000ff);
+}
+
+.rgb-value {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    width: 40px;
+    text-align: right;
+}
