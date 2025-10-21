@@ -16,6 +16,9 @@ var blueBar = document.getElementById("blueBar");
 var redValue = document.getElementById("redValue");
 var greenValue = document.getElementById("greenValue");
 var blueValue = document.getElementById("blueValue");
+var redPercentage = document.getElementById("redPercentage");
+var greenPercentage = document.getElementById("greenPercentage");
+var bluePercentage = document.getElementById("bluePercentage");
 
 easyButton.addEventListener("click", function (){
     easyButton.classList.add("selected");
@@ -118,13 +121,23 @@ function updateRGBBreakdown(rgbString){
     var g = parseInt(rgb[1]);
     var b = parseInt(rgb[2]);
 
+    // Calculate percentages
+    var rPercent = Math.round(r / 255 * 100);
+    var gPercent = Math.round(g / 255 * 100);
+    var bPercent = Math.round(b / 255 * 100);
+
     // Update bar widths (0-255 maps to 0-100%)
-    redBar.style.width = (r / 255 * 100) + "%";
-    greenBar.style.width = (g / 255 * 100) + "%";
-    blueBar.style.width = (b / 255 * 100) + "%";
+    redBar.style.width = rPercent + "%";
+    greenBar.style.width = gPercent + "%";
+    blueBar.style.width = bPercent + "%";
 
     // Update numeric values
     redValue.textContent = r;
     greenValue.textContent = g;
     blueValue.textContent = b;
+
+    // Update percentage displays
+    redPercentage.textContent = rPercent + "%";
+    greenPercentage.textContent = gPercent + "%";
+    bluePercentage.textContent = bPercent + "%";
 }
