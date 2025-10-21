@@ -9,6 +9,14 @@ var h1 = document.querySelector("h1");
 var easyButton = document.getElementById("easyButton");
 var hardButton = document.getElementById("hardButton");
 
+// RGB Breakdown elements
+var redBar = document.getElementById("redBar");
+var greenBar = document.getElementById("greenBar");
+var blueBar = document.getElementById("blueBar");
+var redValue = document.getElementById("redValue");
+var greenValue = document.getElementById("greenValue");
+var blueValue = document.getElementById("blueValue");
+
 easyButton.addEventListener("click", function (){
     easyButton.classList.add("selected");
     hardButton.classList.remove("selected");
@@ -16,6 +24,7 @@ easyButton.addEventListener("click", function (){
     color = generateRandomColor(numSquares);
     pickedColor = color[randomColor()];
     colorDisplay.textContent = pickedColor;
+    updateRGBBreakdown(pickedColor);
     for(var i=0; i<squares.length; i++){
         if(color[i]){
             squares[i].style.backgroundColor = color[i];
@@ -24,7 +33,7 @@ easyButton.addEventListener("click", function (){
         }
     }
     h1.style.backgroundColor = "steelblue";
-    messageDisplay.textContent = "";    
+    messageDisplay.textContent = "";
 });
 
 hardButton.addEventListener("click", function (){
@@ -34,7 +43,8 @@ hardButton.addEventListener("click", function (){
     color = generateRandomColor(numSquares);
     pickedColor = color[randomColor()];
     colorDisplay.textContent = pickedColor;
-    for(var i=0; i<squares.length; i++){  
+    updateRGBBreakdown(pickedColor);
+    for(var i=0; i<squares.length; i++){
         squares[i].style.backgroundColor = color[i];
         squares[i].style.display = "block";
     }
@@ -47,6 +57,7 @@ resetColorDisplay.addEventListener("click", function(){
     color = generateRandomColor(numSquares);
     pickedColor = color[randomColor()];
     colorDisplay.textContent = pickedColor;
+    updateRGBBreakdown(pickedColor);
     for(var i=0; i<squares.length; i++){
         squares[i].style.backgroundColor = color[i];
     }
@@ -56,6 +67,7 @@ resetColorDisplay.addEventListener("click", function(){
 });
 
 colorDisplay.textContent = pickedColor;
+updateRGBBreakdown(pickedColor);
 
 for(var i=0; i<squares.length; i++){
     squares[i].style.backgroundColor = color[i];
@@ -97,4 +109,22 @@ function genRandomColor(){
     var g = Math.floor(Math.random() * 256);
     var b = Math.floor(Math.random() * 256);
     return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+
+function updateRGBBreakdown(rgbString){
+    // Parse RGB string like "rgb(255, 128, 64)" to extract values
+    var rgb = rgbString.match(/\d+/g);
+    var r = parseInt(rgb[0]);
+    var g = parseInt(rgb[1]);
+    var b = parseInt(rgb[2]);
+
+    // Update bar widths (0-255 maps to 0-100%)
+    redBar.style.width = (r / 255 * 100) + "%";
+    greenBar.style.width = (g / 255 * 100) + "%";
+    blueBar.style.width = (b / 255 * 100) + "%";
+
+    // Update numeric values
+    redValue.textContent = r;
+    greenValue.textContent = g;
+    blueValue.textContent = b;
 }
