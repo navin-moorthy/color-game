@@ -18,7 +18,7 @@
 
 <p align="center">
   <strong>
-  Checkout my site at <a href="https://navin-navi.github.io/color-game/">Color Game</a>
+  Checkout my site at <a href="https://color-game-khaki-ten.vercel.app/">Color Game</a>
   </strong>
 </p>
 
@@ -32,7 +32,7 @@
 
 ## 🖥 Tech Stack
 
-- Static files served from GH Pages
+- Static files served from Vercel
 
 ## 🚀 Features
 
