@@ -8,7 +8,6 @@ var resetColorDisplay = document.getElementById("resetColorDisplay");
 var header = document.getElementById("header");
 var easyButton = document.getElementById("easyButton");
 var hardButton = document.getElementById("hardButton");
-var colorPreview = document.getElementById("colorPreview");
 var scoreValue = document.getElementById("scoreValue");
 
 // RGB Breakdown elements
@@ -47,7 +46,6 @@ function resetGame() {
     pickedColor = color[randomColor()];
     colorDisplay.textContent = pickedColor;
     updateRGBBreakdown(pickedColor);
-    updateColorPreview(pickedColor);
     guessesThisRound = 0;
     header.style.backgroundColor = "";
     messageDisplay.textContent = "";
@@ -69,7 +67,6 @@ function resetGame() {
 // Initialize game
 colorDisplay.textContent = pickedColor;
 updateRGBBreakdown(pickedColor);
-updateColorPreview(pickedColor);
 
 for (var i = 0; i < squares.length; i++) {
     squares[i].style.backgroundColor = color[i];
@@ -109,7 +106,8 @@ function handleCorrectGuess(clickedColor) {
 
 function handleWrongGuess(square) {
     guessesThisRound++;
-    messageDisplay.textContent = "Try Again!";
+    var closeness = colorCloseness(square.style.backgroundColor, pickedColor);
+    messageDisplay.textContent = "Try Again! " + closeness + "% close";
     messageDisplay.className = "wrong";
     square.classList.add("eliminated");
 }
@@ -142,8 +140,16 @@ function genRandomColor() {
     return "rgb(" + r + ", " + g + ", " + b + ")";
 }
 
-function updateColorPreview(rgbString) {
-    colorPreview.style.backgroundColor = rgbString;
+function colorCloseness(guessedRgb, targetRgb) {
+    var guess = guessedRgb.match(/\d+/g).map(Number);
+    var target = targetRgb.match(/\d+/g).map(Number);
+    var distance = Math.sqrt(
+        Math.pow(guess[0] - target[0], 2) +
+        Math.pow(guess[1] - target[1], 2) +
+        Math.pow(guess[2] - target[2], 2)
+    );
+    var maxDistance = Math.sqrt(3 * Math.pow(255, 2));
+    return Math.round((1 - distance / maxDistance) * 100);
 }
 
 function updateRGBBreakdown(rgbString) {
