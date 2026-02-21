@@ -6,7 +6,6 @@ var colorDisplay = document.querySelector("#colorDisplay");
 var messageDisplay = document.getElementById("messageDisplay");
 var resetColorDisplay = document.getElementById("resetColorDisplay");
 var header = document.getElementById("header");
-var h1 = document.querySelector("h1");
 var easyButton = document.getElementById("easyButton");
 var hardButton = document.getElementById("hardButton");
 var colorPreview = document.getElementById("colorPreview");
@@ -41,7 +40,6 @@ hardButton.addEventListener("click", function() {
 resetColorDisplay.addEventListener("click", function() {
     resetGame();
     this.textContent = "New Game";
-    this.classList.remove("play-again");
 });
 
 function resetGame() {
@@ -51,34 +49,21 @@ function resetGame() {
     updateRGBBreakdown(pickedColor);
     updateColorPreview(pickedColor);
     guessesThisRound = 0;
-    header.classList.remove("win-state");
     header.style.backgroundColor = "";
     messageDisplay.textContent = "";
     messageDisplay.className = "";
     resetColorDisplay.textContent = "New Game";
-    resetColorDisplay.classList.remove("play-again");
 
     for (var i = 0; i < squares.length; i++) {
-        squares[i].classList.remove("eliminated", "win-pulse");
+        squares[i].classList.remove("eliminated");
 
         if (i < numSquares) {
             squares[i].style.display = "";
             squares[i].style.backgroundColor = color[i];
-            squares[i].style.opacity = "";
-            squares[i].style.pointerEvents = "";
-            playEntrance(squares[i], i);
         } else {
             squares[i].style.display = "none";
         }
     }
-}
-
-function playEntrance(square, index) {
-    square.classList.remove("entrance");
-    // Force reflow to restart animation
-    void square.offsetWidth;
-    square.style.animationDelay = (index * 60) + "ms";
-    square.classList.add("entrance");
 }
 
 // Initialize game
@@ -88,7 +73,6 @@ updateColorPreview(pickedColor);
 
 for (var i = 0; i < squares.length; i++) {
     squares[i].style.backgroundColor = color[i];
-    playEntrance(squares[i], i);
 
     squares[i].addEventListener("click", function() {
         var clickedColor = this.style.backgroundColor;
@@ -113,17 +97,14 @@ function handleCorrectGuess(clickedColor) {
     var points = Math.max(1, numSquares - guessesThisRound);
     score += points;
     scoreValue.textContent = score;
-    animateScorePop();
 
     messageDisplay.textContent = "Correct! +" + points;
     messageDisplay.className = "correct";
 
     header.style.backgroundColor = pickedColor;
-    header.classList.add("win-state");
 
     changeColors(clickedColor);
     resetColorDisplay.textContent = "Play Again?";
-    resetColorDisplay.classList.add("play-again");
 }
 
 function handleWrongGuess(square) {
@@ -133,21 +114,10 @@ function handleWrongGuess(square) {
     square.classList.add("eliminated");
 }
 
-function animateScorePop() {
-    scoreValue.classList.remove("pop");
-    void scoreValue.offsetWidth;
-    scoreValue.classList.add("pop");
-}
-
-function changeColors(colors) {
+function changeColors(color) {
     for (var i = 0; i < squares.length; i++) {
         if (squares[i].style.display !== "none") {
-            (function(idx) {
-                setTimeout(function() {
-                    squares[idx].style.backgroundColor = colors;
-                    squares[idx].classList.add("win-pulse");
-                }, idx * 60);
-            })(i);
+            squares[i].style.backgroundColor = color;
         }
     }
 }
@@ -174,7 +144,6 @@ function genRandomColor() {
 
 function updateColorPreview(rgbString) {
     colorPreview.style.backgroundColor = rgbString;
-    colorPreview.style.boxShadow = "0 0 12px " + rgbString;
 }
 
 function updateRGBBreakdown(rgbString) {
